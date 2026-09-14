@@ -30,22 +30,22 @@ export default function NineRemotePromoModal({ isOpen, onClose }) {
 
   return createPortal(
     <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4">
-      <div className="absolute inset-0 bg-black/50 backdrop-blur-[2px] fade-in" onClick={onClose} />
+      <div className="fixed inset-0 bg-black/40 backdrop-blur-xs transition-opacity fade-in" onClick={onClose} />
 
-      <div className="relative w-full max-w-sm rounded-[14px] overflow-hidden shadow-[var(--shadow-elev)] fade-in flex flex-col bg-surface border border-border-subtle">
+      <div className="relative w-full max-w-sm rounded-[8px] overflow-hidden shadow-[var(--shadow-elev)] fade-in flex flex-col bg-surface border border-border">
         {/* Header */}
-        <div className="flex items-center justify-between px-5 py-3 border-b border-border-subtle">
+        <div className="flex items-center justify-between px-5 py-3.5 border-b border-border">
           <div className="flex items-center gap-3">
-            <div className="w-7 h-7 rounded-[8px] flex items-center justify-center bg-primary">
+            <div className="w-7 h-7 rounded-[6px] flex items-center justify-center bg-primary">
               <span className="material-symbols-outlined text-white text-base">terminal</span>
             </div>
             <span className="text-xs font-bold uppercase tracking-wider text-primary font-mono">9Remote</span>
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 rounded-[10px] text-text-muted hover:bg-surface-2 hover:text-text-main transition-colors"
+            className="size-7 rounded-[6px] text-text-muted hover:bg-surface-2 hover:text-text-main flex items-center justify-center transition-colors cursor-pointer"
           >
-            <span className="material-symbols-outlined text-base">close</span>
+            <span className="material-symbols-outlined text-[18px]">close</span>
           </button>
         </div>
 

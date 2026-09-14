@@ -23,27 +23,53 @@ function ModelItem({ index, model, isFirst, isLast, onEdit, onMoveUp, onMoveDown
     if (e.key === "Escape") { setDraft(model); setEditing(false); }
   };
   return (
-    <div className="group flex min-w-0 items-center gap-1.5 rounded-md bg-black/[0.02] px-2 py-1 transition-colors hover:bg-black/[0.04] dark:bg-white/[0.02] dark:hover:bg-white/[0.04]">
-      <span className="text-[10px] font-medium text-text-muted w-3 text-center shrink-0">{index + 1}</span>
+    <div className="group flex min-w-0 items-center gap-2 rounded-[6px] px-2.5 py-1.5 bg-surface border border-border hover:border-neutral-400 dark:hover:border-neutral-600 transition-colors select-none">
+      <span className="text-xs font-mono text-text-muted w-4 text-center shrink-0">{index + 1}</span>
       {editing ? (
-        <input autoFocus value={draft} onChange={(e) => setDraft(e.target.value)} onBlur={commit} onKeyDown={handleKeyDown}
-          className="min-w-0 flex-1 rounded border border-primary/40 bg-white px-1.5 py-0.5 font-mono text-xs text-text-main outline-none dark:bg-black/20" />
+        <input
+          autoFocus
+          value={draft}
+          onChange={(e) => setDraft(e.target.value)}
+          onBlur={commit}
+          onKeyDown={handleKeyDown}
+          className="min-w-0 flex-1 h-6 px-1.5 rounded-[4px] border border-border bg-surface-2 font-mono text-xs text-text-main outline-none focus:border-black dark:focus:border-white focus:ring-1"
+        />
       ) : (
-        <div className="min-w-0 flex-1 cursor-text truncate rounded px-1.5 py-0.5 font-mono text-xs text-text-main hover:bg-black/5 dark:hover:bg-white/5"
-          onClick={() => setEditing(true)} title="Click to edit">{model}</div>
+        <div
+          className="min-w-0 flex-1 h-6 flex items-center px-1.5 rounded-[4px] font-mono text-xs text-text-main truncate hover:bg-surface-2 transition-colors cursor-text"
+          onClick={() => setEditing(true)}
+          title="Click to edit"
+        >
+          {model}
+        </div>
       )}
       <div className="flex shrink-0 items-center gap-0.5">
-        <button onClick={onMoveUp} disabled={isFirst}
-          className={`p-0.5 rounded ${isFirst ? "text-text-muted/20 cursor-not-allowed" : "text-text-muted hover:text-primary hover:bg-black/5 dark:hover:bg-white/5"}`} title="Move up">
-          <span className="material-symbols-outlined text-[12px]">arrow_upward</span>
+        <button
+          type="button"
+          onClick={onMoveUp}
+          disabled={isFirst}
+          className="p-1 rounded-[4px] text-text-muted hover:text-text-main hover:bg-surface-2 disabled:opacity-20 cursor-pointer disabled:cursor-not-allowed"
+          title="Move up"
+        >
+          <span className="material-symbols-outlined text-[14px]">arrow_upward</span>
         </button>
-        <button onClick={onMoveDown} disabled={isLast}
-          className={`p-0.5 rounded ${isLast ? "text-text-muted/20 cursor-not-allowed" : "text-text-muted hover:text-primary hover:bg-black/5 dark:hover:bg-white/5"}`} title="Move down">
-          <span className="material-symbols-outlined text-[12px]">arrow_downward</span>
+        <button
+          type="button"
+          onClick={onMoveDown}
+          disabled={isLast}
+          className="p-1 rounded-[4px] text-text-muted hover:text-text-main hover:bg-surface-2 disabled:opacity-20 cursor-pointer disabled:cursor-not-allowed"
+          title="Move down"
+        >
+          <span className="material-symbols-outlined text-[14px]">arrow_downward</span>
         </button>
       </div>
-      <button onClick={onRemove} className="p-0.5 hover:bg-red-500/10 rounded text-text-muted hover:text-red-500 transition-all" title="Remove">
-        <span className="material-symbols-outlined text-[12px]">close</span>
+      <button
+        type="button"
+        onClick={onRemove}
+        className="p-1 rounded-[4px] text-text-muted hover:text-red-500 hover:bg-red-500/10 transition-colors cursor-pointer"
+        title="Remove"
+      >
+        <span className="material-symbols-outlined text-[14px]">close</span>
       </button>
     </div>
   );
@@ -110,58 +136,103 @@ export default function ComboFormModal({ isOpen, combo, onClose, onSave, activeP
 
   return (
     <>
-      <Modal isOpen={isOpen} onClose={onClose} title={title || (isEdit ? "Edit Combo" : "Create Combo")}>
+      <Modal
+        isOpen={isOpen}
+        onClose={onClose}
+        title={title || (isEdit ? "Edit Combo" : "Create Combo")}
+        size="md"
+        footer={
+          <>
+            <Button onClick={onClose} variant="secondary" size="sm">
+              Cancel
+            </Button>
+            <Button
+              onClick={handleSave}
+              variant="primary"
+              size="sm"
+              loading={saving}
+              disabled={!name.trim() || !!nameError || saving}
+            >
+              {isEdit ? "Save Changes" : "Create Combo"}
+            </Button>
+          </>
+        }
+      >
         <div className="flex flex-col gap-3">
           <div>
             {forcePrefix ? (
               <>
-                <label className="text-sm font-medium mb-1 block">Combo Name</label>
+                <label className="text-xs font-medium text-text-main mb-1.5 block">Combo Name</label>
                 <div className="flex items-stretch">
-                  <span className="inline-flex items-center px-2 rounded-l border border-r-0 border-black/10 dark:border-white/10 bg-black/[0.04] dark:bg-white/[0.04] text-text-muted font-mono text-sm">{forcePrefix}</span>
-                  <input value={name} onChange={handleNameChange} placeholder="my-combo"
-                    className="flex-1 min-w-0 rounded-r border border-black/10 dark:border-white/10 bg-white dark:bg-black/20 px-2 py-1.5 font-mono text-sm outline-none focus:border-primary" />
+                  <span className="inline-flex items-center px-2.5 rounded-l-[6px] border border-r-0 border-border bg-surface-2 text-text-muted font-mono text-xs">
+                    {forcePrefix}
+                  </span>
+                  <input
+                    value={name}
+                    onChange={handleNameChange}
+                    placeholder="my-combo"
+                    className="flex-1 min-w-0 rounded-r-[6px] border border-border bg-surface px-2.5 py-1.5 font-mono text-xs text-text-main outline-none focus:border-black dark:focus:border-white focus:ring-1"
+                  />
                 </div>
-                {nameError && <p className="text-[11px] text-red-500 mt-0.5">{nameError}</p>}
+                {nameError && <p className="text-[11px] text-red-500 mt-1">{nameError}</p>}
               </>
             ) : (
-              <Input label="Combo Name" value={name} onChange={handleNameChange} placeholder="my-combo" error={nameError} />
+              <Input
+                label="Combo Name"
+                value={name}
+                onChange={handleNameChange}
+                placeholder="my-combo"
+                error={nameError}
+              />
             )}
-            <p className="text-[10px] text-text-muted mt-0.5">
+            <p className="text-[11px] text-text-muted mt-1">
               {forcePrefix ? `Auto-prefixed with "${forcePrefix}". ` : ""}Only letters, numbers, -, _ and . allowed
             </p>
           </div>
 
           <div>
-            <label className="text-sm font-medium mb-1.5 block">Models</label>
+            <div className="flex items-center justify-between mb-2">
+              <label className="text-xs font-medium text-text-main">Models</label>
+              <span className="text-[11px] font-mono text-text-muted">
+                {models.length} model{models.length === 1 ? "" : "s"}
+              </span>
+            </div>
+
             {models.length === 0 ? (
-              <div className="text-center py-4 border border-dashed border-black/10 dark:border-white/10 rounded-lg bg-black/[0.01] dark:bg-white/[0.01]">
-                <span className="material-symbols-outlined text-text-muted text-xl mb-1">layers</span>
+              <div className="text-center py-3 border border-dashed border-border rounded-[6px] bg-surface-2/30">
+                <span className="material-symbols-outlined text-text-muted text-xl mb-1 block">layers</span>
                 <p className="text-xs text-text-muted">No models added yet</p>
               </div>
             ) : (
-              <div className="flex max-h-[55vh] min-w-0 flex-col gap-1 overflow-y-auto sm:max-h-[350px]">
+              <div className="flex max-h-[220px] min-w-0 flex-col gap-1.5 overflow-y-auto">
                 {models.map((model, index) => (
-                  <ModelItem key={index} index={index} model={model}
-                    isFirst={index === 0} isLast={index === models.length - 1}
-                    onEdit={(v) => { const a = [...models]; a[index] = v; setModels(a); }}
+                  <ModelItem
+                    key={index}
+                    index={index}
+                    model={model}
+                    isFirst={index === 0}
+                    isLast={index === models.length - 1}
+                    onEdit={(v) => {
+                      const a = [...models];
+                      a[index] = v;
+                      setModels(a);
+                    }}
                     onMoveUp={() => handleMoveUp(index)}
                     onMoveDown={() => handleMoveDown(index)}
-                    onRemove={() => handleRemoveModel(index)} />
+                    onRemove={() => handleRemoveModel(index)}
+                  />
                 ))}
               </div>
             )}
-            <button onClick={() => setShowModelSelect(true)}
-              className="w-full mt-2 py-2 border border-dashed border-black/10 dark:border-white/10 rounded-lg text-xs text-primary font-medium hover:text-primary hover:border-primary/50 transition-colors flex items-center justify-center gap-1">
+
+            <button
+              type="button"
+              onClick={() => setShowModelSelect(true)}
+              className="w-full mt-2.5 py-2 border border-dashed border-border rounded-[6px] text-xs text-text-main font-medium hover:border-neutral-400 dark:hover:border-neutral-600 hover:bg-surface-2/60 transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
+            >
               <span className="material-symbols-outlined text-[16px]">add</span>
               Add Model
             </button>
-          </div>
-
-          <div className="flex flex-col gap-2 pt-1 sm:flex-row">
-            <Button onClick={onClose} variant="ghost" fullWidth size="sm">Cancel</Button>
-            <Button onClick={handleSave} fullWidth size="sm" disabled={!name.trim() || !!nameError || saving}>
-              {saving ? "Saving..." : isEdit ? "Save" : "Create"}
-            </Button>
           </div>
         </div>
       </Modal>

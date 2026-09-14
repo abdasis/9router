@@ -16,21 +16,23 @@ function getLocaleFromCookie() {
 
 export default function HeaderLanguage() {
   const [open, setOpen] = useState(false);
-  const [locale, setLocale] = useState("en");
+  const [locale, setLocale] = useState(getLocaleFromCookie);
 
-  useEffect(() => {
+  const handleOpen = () => {
     setLocale(getLocaleFromCookie());
-  }, [open]);
+    setOpen(true);
+  };
 
   return (
     <>
       <button
-        onClick={() => setOpen(true)}
-        className="flex items-center justify-center p-2 rounded-lg text-text-muted hover:text-text-main hover:bg-black/5 dark:hover:bg-white/5 transition-all"
+        onClick={handleOpen}
+        className="flex items-center justify-center size-8 rounded-[6px] text-text-muted hover:text-text-main hover:bg-surface-2 transition-colors cursor-pointer"
         title="Language"
+        aria-label="Change language"
         data-i18n-skip="true"
       >
-        <span className="text-lg leading-none">{LOCALE_FLAGS[locale] || "🌐"}</span>
+        <span className="text-base leading-none">{LOCALE_FLAGS[locale] || "🌐"}</span>
       </button>
 
       <LanguageSwitcher

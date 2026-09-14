@@ -95,7 +95,7 @@ export default function EndpointPresetControl({
       <select
         value={selectedName}
         onChange={(event) => handleSelect(event.target.value)}
-        className="flex-1 px-2 py-1.5 bg-surface rounded text-xs border border-border focus:outline-none focus:ring-1 focus:ring-primary/50"
+        className="flex-1 h-8 px-2.5 py-1.5 bg-surface rounded-[6px] text-xs text-text-main border border-border focus:outline-none focus:border-black focus:ring-1 focus:ring-black dark:focus:border-white dark:focus:ring-white"
       >
         <option value="">Manual / current endpoint</option>
         {presets.map((preset) => (

@@ -2,6 +2,12 @@
 
 import { cn } from "@/shared/utils/cn";
 
+const sizes = {
+  sm: "h-6 text-[11px] px-2",
+  md: "h-7 text-xs px-2.5",
+  lg: "h-8 text-sm px-3",
+};
+
 export default function SegmentedControl({
   options = [],
   value,
@@ -9,40 +15,37 @@ export default function SegmentedControl({
   size = "md",
   className,
 }) {
-  const sizes = {
-    sm: "h-7 text-xs",
-    md: "h-9 text-sm",
-    lg: "h-11 text-base",
-  };
-
   return (
     <div
       className={cn(
-        "inline-flex items-center p-1 rounded-[10px] overflow-x-auto",
-        "bg-surface-2",
+        "inline-flex items-center p-0.5 rounded-[6px] bg-surface-2 border border-border overflow-x-auto select-none",
         className
       )}
     >
-      {options.map((option) => (
-        <button
-          key={option.value}
-          onClick={() => onChange(option.value)}
-          className={cn(
-            "shrink-0 px-4 rounded-[8px] font-medium transition-all",
-            sizes[size],
-            value === option.value
-              ? "bg-surface text-text-main shadow-sm"
-              : "text-text-muted hover:text-text-main"
-          )}
-        >
-          {option.icon && (
-            <span className="material-symbols-outlined text-[16px] mr-1.5">
-              {option.icon}
-            </span>
-          )}
-          {option.label}
-        </button>
-      ))}
+      {options.map((option) => {
+        const isActive = value === option.value;
+        return (
+          <button
+            key={option.value}
+            type="button"
+            onClick={() => onChange(option.value)}
+            className={cn(
+              "shrink-0 inline-flex items-center justify-center transition-colors cursor-pointer",
+              sizes[size] || sizes.md,
+              isActive
+                ? "bg-surface text-text-main shadow-xs font-medium rounded-[4px] border border-border/80"
+                : "text-text-muted hover:text-text-main font-normal border border-transparent"
+            )}
+          >
+            {option.icon && (
+              <span className="material-symbols-outlined text-[16px] mr-1.5">
+                {option.icon}
+              </span>
+            )}
+            {option.label}
+          </button>
+        );
+      })}
     </div>
   );
 }

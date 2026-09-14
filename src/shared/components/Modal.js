@@ -13,7 +13,7 @@ export default function Modal({
   footer,
   size = "md",
   closeOnOverlay = true,
-  showTrafficLights = true,
+  showTrafficLights = false, // ponytail: deprecated in Geist UI standard, default false
   className,
 }) {
   const sizes = {
@@ -30,7 +30,9 @@ export default function Modal({
     } else {
       document.body.style.overflow = "";
     }
-    return () => { document.body.style.overflow = ""; };
+    return () => {
+      document.body.style.overflow = "";
+    };
   }, [isOpen]);
 
   useEffect(() => {
@@ -47,7 +49,7 @@ export default function Modal({
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       {/* Overlay */}
       <div
-        className="absolute inset-0 bg-black/50 backdrop-blur-[2px] fade-in"
+        className="fixed inset-0 bg-black/40 backdrop-blur-xs transition-opacity fade-in"
         onClick={closeOnOverlay ? onClose : undefined}
       />
 
@@ -55,55 +57,64 @@ export default function Modal({
       <div
         className={cn(
           "relative w-full bg-surface",
-          "border border-border-subtle",
-          "rounded-[14px] shadow-[var(--shadow-elev)]",
+          "border border-border",
+          "rounded-[8px] shadow-[var(--shadow-elev)]",
           "fade-in",
-          sizes[size],
+          sizes[size] || sizes.md,
           className
         )}
       >
         {/* Header */}
-        {(title || showTrafficLights) && (
-          <div className="flex items-center justify-between p-2 border-b border-border-subtle">
-            <div className="flex items-center">
-              {/* Traffic lights — desktop only */}
+        {(title || onClose || showTrafficLights) && (
+          <div className="flex items-center justify-between px-4 py-2.5 border-b border-border">
+            <div className="flex items-center min-w-0">
+              {/* Deprecated macOS traffic lights fallback */}
               {showTrafficLights && (
-                <div className="hidden md:flex items-center gap-2 mr-4 ml-2">
+                <div className="hidden md:flex items-center gap-2 mr-4 ml-1">
                   <Tooltip text="Close" position="top" color="#FF5F56">
                     <button
+                      type="button"
                       onClick={onClose}
                       aria-label="Close"
                       title="Close"
-                      className="w-4 h-4 rounded-full bg-[#FF5F56] hover:brightness-90 transition-all cursor-pointer flex items-center justify-center group/dot"
+                      className="w-3.5 h-3.5 rounded-full bg-[#FF5F56] hover:brightness-90 transition-all cursor-pointer flex items-center justify-center group/dot"
                     >
-                      <span className="text-[9px] font-bold text-white opacity-0 group-hover/dot:opacity-100 transition-opacity leading-none">✕</span>
+                      <span className="text-[9px] font-bold text-white opacity-0 group-hover/dot:opacity-100 transition-opacity leading-none">
+                        ✕
+                      </span>
                     </button>
                   </Tooltip>
-                  <div className="w-4 h-4 rounded-full bg-[#3a3a3a]/20 dark:bg-white/15 cursor-not-allowed" />
-                  <div className="w-4 h-4 rounded-full bg-[#3a3a3a]/20 dark:bg-white/15 cursor-not-allowed" />
+                  <div className="w-3.5 h-3.5 rounded-full bg-[#3a3a3a]/20 dark:bg-white/15 cursor-not-allowed" />
+                  <div className="w-3.5 h-3.5 rounded-full bg-[#3a3a3a]/20 dark:bg-white/15 cursor-not-allowed" />
                 </div>
               )}
               {title && (
-                <h2 className="text-lg font-semibold text-text-main">{title}</h2>
+                <h2 className="text-sm lg:text-base font-medium text-text-main truncate">
+                  {title}
+                </h2>
               )}
             </div>
-            {/* X button — mobile only */}
-            <button
-              onClick={onClose}
-              aria-label="Close"
-              className="md:hidden p-1.5 rounded-[10px] text-text-muted hover:bg-surface-2 hover:text-text-main transition-colors"
-            >
-              <span className="material-symbols-outlined text-[20px]">close</span>
-            </button>
+            {onClose && (
+              <button
+                type="button"
+                onClick={onClose}
+                aria-label="Close"
+                className="size-7 rounded-[6px] text-text-muted hover:text-text-main hover:bg-surface-2 flex items-center justify-center transition-colors cursor-pointer shrink-0 ml-2"
+              >
+                <span className="material-symbols-outlined text-[18px]">close</span>
+              </button>
+            )}
           </div>
         )}
 
         {/* Body */}
-        <div className="p-6 max-h-[calc(85vh-100px)] overflow-y-auto custom-scrollbar">{children}</div>
+        <div className="px-4 py-3 max-h-[calc(85vh-90px)] overflow-y-auto custom-scrollbar text-xs sm:text-sm">
+          {children}
+        </div>
 
         {/* Footer */}
         {footer && (
-          <div className="flex items-center justify-end gap-3 p-6 border-t border-border-subtle">
+          <div className="px-4 py-2 border-t border-border flex items-center justify-end gap-2 bg-surface-2/30 rounded-b-[8px]">
             {footer}
           </div>
         )}
@@ -131,7 +142,7 @@ export function ConfirmModal({
       size="sm"
       footer={
         <>
-          <Button variant="ghost" onClick={onClose} disabled={loading}>
+          <Button variant="secondary" onClick={onClose} disabled={loading}>
             {cancelText}
           </Button>
           <Button variant={variant} onClick={onConfirm} loading={loading}>
@@ -140,7 +151,7 @@ export function ConfirmModal({
         </>
       }
     >
-      <p className="text-text-muted">{message}</p>
+      <p className="text-text-muted text-sm">{message}</p>
     </Modal>
   );
 }

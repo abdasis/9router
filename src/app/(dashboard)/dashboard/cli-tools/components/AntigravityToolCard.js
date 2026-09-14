@@ -327,7 +327,7 @@ export default function AntigravityToolCard({
                   <select
                     value={selectedApiKey}
                     onChange={(e) => setSelectedApiKey(e.target.value)}
-                    className="w-full min-w-0 px-2 py-2 bg-surface rounded text-xs border border-border focus:outline-none focus:ring-1 focus:ring-primary/50 sm:py-1.5"
+                    className="w-full min-w-0 h-8 px-2.5 py-1.5 bg-surface rounded-[6px] text-xs text-text-main border border-border focus:outline-none focus:border-black focus:ring-1 focus:ring-black dark:focus:border-white dark:focus:ring-white"
                   >
                     {apiKeys.map((key) => <option key={key.id} value={key.key}>{key.key}</option>)}
                   </select>

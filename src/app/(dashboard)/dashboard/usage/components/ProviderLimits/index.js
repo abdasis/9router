@@ -929,7 +929,7 @@ export default function ProviderLimits() {
               }
               setAccountFilter(nextValue);
             }}
-            className="h-8 rounded-lg border border-black/10 bg-black/[0.02] px-2 text-xs text-text-primary outline-none transition-colors hover:bg-black/5 dark:border-white/10 dark:bg-white/[0.03] dark:hover:bg-white/10"
+            className="h-8 rounded-[6px] border border-border bg-surface px-2.5 text-xs text-text-main outline-none transition-colors hover:border-neutral-400 dark:hover:border-neutral-600 focus:border-black focus:ring-1 focus:ring-black dark:focus:border-white dark:focus:ring-white"
             aria-label="Filter accounts by status"
           >
             {ACCOUNT_FILTER_OPTIONS.map((option) => (
@@ -943,7 +943,7 @@ export default function ProviderLimits() {
             <select
               value={quotaSortMode}
               onChange={(event) => setQuotaSortMode(event.target.value)}
-              className="h-8 rounded-lg border border-black/10 bg-black/[0.02] px-2 text-xs text-text-primary outline-none transition-colors hover:bg-black/5 dark:border-white/10 dark:bg-white/[0.03] dark:hover:bg-white/10"
+              className="h-8 rounded-[6px] border border-border bg-surface px-2.5 text-xs text-text-main outline-none transition-colors hover:border-neutral-400 dark:hover:border-neutral-600 focus:border-black focus:ring-1 focus:ring-black dark:focus:border-white dark:focus:ring-white"
               aria-label="Sort Codex quotas by remaining"
             >
               {QUOTA_SORT_OPTIONS.map((option) => (
@@ -1335,7 +1335,7 @@ export default function ProviderLimits() {
                     setCustomPageSizeInput(String(nextPageSize));
                   }
                 }}
-                className="h-8 rounded-lg border border-black/10 bg-black/[0.02] px-2 text-xs text-text-primary outline-none transition-colors hover:bg-black/5 dark:border-white/10 dark:bg-white/[0.03] dark:hover:bg-white/10"
+                className="h-8 rounded-[6px] border border-border bg-surface px-2.5 text-xs text-text-main outline-none transition-colors hover:border-neutral-400 dark:hover:border-neutral-600 focus:border-black focus:ring-1 focus:ring-black dark:focus:border-white dark:focus:ring-white"
                 aria-label="Accounts per page"
               >
                 {ACCOUNT_PAGE_SIZE_OPTIONS.map((option) => (

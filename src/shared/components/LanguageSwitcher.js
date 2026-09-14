@@ -57,7 +57,7 @@ const getLocaleInfo = (locale) => {
 };
 
 export default function LanguageSwitcher({ className = "", isOpen: controlledOpen, onClose, hideTrigger = false }) {
-  const [locale, setLocale] = useState("en");
+  const [locale, setLocale] = useState(getLocaleFromCookie);
   const [isPending, setIsPending] = useState(false);
   const [internalOpen, setInternalOpen] = useState(false);
   const modalRef = useRef(null);
@@ -71,10 +71,6 @@ export default function LanguageSwitcher({ className = "", isOpen: controlledOpe
       setInternalOpen(value);
     }
   };
-
-  useEffect(() => {
-    setLocale(getLocaleFromCookie());
-  }, []);
 
   // Close modal when clicking outside
   useEffect(() => {
@@ -118,13 +114,13 @@ export default function LanguageSwitcher({ className = "", isOpen: controlledOpe
         <button
           onClick={() => setIsOpen(!isOpen)}
           disabled={isPending}
-          className="flex items-center gap-2 px-3 py-2 rounded-lg text-text-muted hover:text-text-main hover:bg-surface/60 transition-colors"
+          className="flex items-center gap-2 px-2.5 py-1.5 rounded-[6px] text-text-muted hover:text-text-main hover:bg-surface-2 transition-colors cursor-pointer"
           title="Language"
           data-i18n-skip="true"
         >
-          <span className="material-symbols-outlined text-[20px]">language</span>
-          <span className="text-sm font-medium">{getLocaleInfo(locale).name}</span>
-          <span className="text-lg">{getLocaleInfo(locale).flag}</span>
+          <span className="material-symbols-outlined text-[18px]">language</span>
+          <span className="text-xs font-medium">{getLocaleInfo(locale).name}</span>
+          <span className="text-base">{getLocaleInfo(locale).flag}</span>
         </button>
       )}
 
@@ -133,30 +129,30 @@ export default function LanguageSwitcher({ className = "", isOpen: controlledOpe
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4" data-i18n-skip="true">
           {/* Overlay */}
           <div
-            className="absolute inset-0 bg-black/30 backdrop-blur-sm"
+            className="absolute inset-0 bg-black/30 backdrop-blur-xs"
             onClick={() => setIsOpen(false)}
           />
 
           {/* Modal content */}
           <div
             ref={modalRef}
-            className="relative w-full bg-surface border border-black/10 dark:border-white/10 rounded-xl shadow-2xl animate-in fade-in zoom-in-95 duration-200 max-w-2xl flex flex-col max-h-[80vh]"
+            className="relative w-full bg-surface border border-border rounded-[8px] shadow-[var(--shadow-elev)] animate-in fade-in zoom-in-95 duration-150 max-w-2xl flex flex-col max-h-[80vh]"
           >
             {/* Modal header */}
-            <div className="flex items-center justify-between p-3 border-b border-black/5 dark:border-white/5">
-              <h2 className="text-lg font-semibold text-text-main">Select Language</h2>
+            <div className="flex items-center justify-between px-4 py-3 border-b border-border">
+              <h2 className="text-sm font-medium text-text-main">Select Language</h2>
               <button
                 onClick={() => setIsOpen(false)}
-                className="p-1.5 rounded-lg text-text-muted hover:bg-black/5 dark:hover:bg-white/5 transition-colors"
+                className="p-1 rounded-[6px] text-text-muted hover:text-text-main hover:bg-surface-2 transition-colors cursor-pointer"
                 aria-label="Close"
               >
-                <span className="material-symbols-outlined text-[20px]">close</span>
+                <span className="material-symbols-outlined text-[18px]">close</span>
               </button>
             </div>
 
             {/* Modal body - fixed grid columns, equal sizing */}
-            <div className="p-6 overflow-y-auto flex-1">
-              <div className="grid grid-cols-[repeat(auto-fill,minmax(100px,1fr))] gap-2">
+            <div className="p-4 overflow-y-auto flex-1 custom-scrollbar">
+              <div className="grid grid-cols-[repeat(auto-fill,minmax(100px,1fr))] gap-1.5">
                 {LOCALES.map((item) => {
                   const active = locale === item;
                   const info = getLocaleInfo(item);
@@ -165,18 +161,18 @@ export default function LanguageSwitcher({ className = "", isOpen: controlledOpe
                       key={item}
                       onClick={() => handleSetLocale(item)}
                       disabled={isPending}
-                      className={`flex flex-col items-center justify-start gap-1 px-2 py-3 rounded-lg text-xs font-medium transition-colors w-full ${
+                      className={`flex flex-col items-center justify-start gap-1 px-2 py-2.5 rounded-[6px] text-xs transition-colors w-full cursor-pointer ${
                         active
-                          ? "bg-primary/15 text-primary ring-2 ring-primary"
-                          : "text-text-main hover:bg-black/5 dark:hover:bg-white/5"
+                          ? "bg-surface-2 ring-1 ring-border text-text-main font-medium"
+                          : "text-text-main hover:bg-surface-2"
                       } ${isPending ? "opacity-70 cursor-wait" : ""}`}
                       title={info.name}
                     >
-                      <span className="text-2xl">{info.flag}</span>
+                      <span className="text-xl">{info.flag}</span>
                       {/* Fixed 2-line height so all cards are uniform */}
-                      <span className="text-center leading-tight line-clamp-2 h-8 flex items-center">{info.name}</span>
+                      <span className="text-center leading-tight line-clamp-2 h-7 flex items-center text-[11px]">{info.name}</span>
                       {active && (
-                        <span className="material-symbols-outlined text-sm">check</span>
+                        <span className="material-symbols-outlined text-xs text-text-main">check</span>
                       )}
                     </button>
                   );

@@ -8,17 +8,17 @@ export default function ThemeToggle({ className, variant = "default" }) {
 
   const variants = {
     default: cn(
-      "flex items-center justify-center size-10 rounded-full",
+      "flex items-center justify-center size-8 rounded-[6px]",
       "text-text-muted hover:text-text-main",
-      "hover:bg-surface-2 transition-colors"
+      "hover:bg-surface-2 transition-colors cursor-pointer"
     ),
     card: cn(
-      "flex items-center justify-center size-11 rounded-full",
+      "flex items-center justify-center size-10 rounded-[8px]",
       "bg-surface/60 hover:bg-surface",
       "border border-border",
       "backdrop-blur-md shadow-sm hover:shadow-[var(--shadow-warm)]",
       "text-text-muted hover:text-brand-500",
-      "transition-all group"
+      "transition-all group cursor-pointer"
     ),
   };
 
@@ -31,8 +31,8 @@ export default function ThemeToggle({ className, variant = "default" }) {
     >
       <span
         className={cn(
-          "material-symbols-outlined text-[22px]",
-          variant === "card" && "transition-transform duration-300 group-hover:rotate-12"
+          "material-symbols-outlined text-[18px]",
+          variant === "card" && "text-[20px] transition-transform duration-300 group-hover:rotate-12"
         )}
       >
         {isDark ? "light_mode" : "dark_mode"}

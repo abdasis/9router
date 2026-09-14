@@ -492,12 +492,12 @@ export default function ModelSelectModal({
       }}
       title={title}
       size="md"
-      className="p-4!"
+      className="max-w-md"
       footer={null}
     >
       {/* Info bar */}
-      <div className="flex items-center gap-2 mb-3 px-2.5 py-2 bg-primary/8 border border-primary/20 rounded-lg text-xs text-text-muted">
-        <span className="material-symbols-outlined text-primary shrink-0" style={{ fontSize: "14px" }}>info</span>
+      <div className="flex items-center gap-2 mb-3 px-2.5 py-2 bg-surface-2 border border-border rounded-[6px] text-xs text-text-muted">
+        <span className="material-symbols-outlined text-text-muted shrink-0 text-[14px]">info</span>
         <span>Click to add, click again to remove. Changes are saved automatically.</span>
       </div>
 
@@ -512,42 +512,42 @@ export default function ModelSelectModal({
             placeholder="Search..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-8 pr-3 py-1.5 bg-surface border border-border rounded text-xs focus:outline-none focus:ring-1 focus:ring-primary/50"
+            className="w-full pl-8 pr-3 py-1.5 bg-surface border border-border rounded-[6px] text-xs text-text-main placeholder:text-text-muted focus:outline-none focus:border-black dark:focus:border-white focus:ring-1 focus:ring-black dark:focus:ring-white transition-colors"
           />
         </div>
       </div>
 
       {/* Models grouped by provider - compact */}
-      <div className="max-h-[400px] overflow-y-auto space-y-3">
+      <div className="max-h-[260px] overflow-y-auto space-y-3">
         {/* Combos section - always first */}
         {filteredCombos.length > 0 && (
           <div>
             <div className="flex items-center gap-1.5 mb-1.5 sticky top-0 bg-surface py-0.5">
-              <span className="material-symbols-outlined text-primary text-[14px]">layers</span>
-              <span className="text-xs font-medium text-primary">Combos</span>
-              <span className="text-[10px] text-text-muted">({filteredCombos.length})</span>
+              <span className="material-symbols-outlined text-text-muted text-[14px]">layers</span>
+              <span className="text-xs font-medium text-text-main">Combos</span>
+              <span className="text-[10px] font-mono text-text-muted">({filteredCombos.length})</span>
             </div>
             <div className="flex flex-wrap gap-1.5">
               {filteredCombos.map((combo) => {
                 const isSelected = selectedModel === combo.name;
+                const isAdded = addedModelValues.includes(combo.name);
+                const isActive = isSelected || isAdded;
                 return (
                   <button
                     key={combo.id}
                     onClick={() => handleSelect({ id: combo.name, name: combo.name, value: combo.name })}
                     className={`
-                      px-2 py-1 rounded-xl text-xs font-medium transition-all border hover:cursor-pointer flex items-center gap-1
-                      ${isSelected
-                        ? "bg-primary text-white border-primary"
-                        : addedModelValues.includes(combo.name)
-                          ? "bg-primary border-primary text-white hover:bg-primary-hover"
-                          : "bg-surface border-border text-text-main hover:border-primary/50 hover:bg-primary/5"
+                      h-6 px-2 py-0.5 inline-flex items-center gap-1 leading-none rounded-[6px] text-xs font-mono transition-colors border hover:cursor-pointer
+                      ${isActive
+                        ? "bg-black text-white dark:bg-white dark:text-black border-black dark:border-white font-medium"
+                        : "bg-surface border-border text-text-main hover:border-neutral-400 dark:hover:border-neutral-600 hover:bg-surface-2 font-normal"
                       }
                     `}
                   >
-                    {addedModelValues.includes(combo.name) && (
-                      <span className="material-symbols-outlined leading-none" style={{ fontSize: "10px" }}>check</span>
+                    {isAdded && (
+                      <span className="material-symbols-outlined text-[10px] leading-none inline-flex items-center">check</span>
                     )}
-                    {combo.name}
+                    <span>{combo.name}</span>
                   </button>
                 );
               })}
@@ -567,10 +567,10 @@ export default function ModelSelectModal({
                 fallbackText={(group.name || providerId).slice(0, 2).toUpperCase()}
                 fallbackColor={group.color}
               />
-              <span className="text-xs font-medium text-primary">
+              <span className="text-xs font-medium text-text-main">
                 {group.name}
               </span>
-              <span className="text-[10px] text-text-muted">
+              <span className="text-[10px] font-mono text-text-muted">
                 ({group.models.length})
               </span>
             </div>
@@ -578,43 +578,43 @@ export default function ModelSelectModal({
             <div className="flex flex-wrap gap-1.5">
               {group.models.map((model) => {
                 const isSelected = selectedModel === model.value;
+                const isAdded = addedModelValues.includes(model.value);
                 const isPlaceholder = model.isPlaceholder;
+                const isActive = isSelected || isAdded;
                 return (
                   <button
                     key={model.value}
                     onClick={() => handleSelect(model)}
                     title={isPlaceholder ? "Select to pre-fill, then edit model ID in the input" : undefined}
                     className={`
-                      px-2 py-1 rounded-xl text-xs font-medium transition-all border hover:cursor-pointer
+                      h-6 px-2 py-0.5 inline-flex items-center gap-1 leading-none rounded-[6px] text-xs font-mono transition-colors border hover:cursor-pointer
                       ${isPlaceholder
-                        ? "border-dashed border-border text-text-muted hover:border-primary/50 hover:text-primary bg-surface italic"
-                        : isSelected
-                          ? "bg-primary text-white border-primary"
-                          : addedModelValues.includes(model.value)
-                            ? "bg-primary border-primary text-white hover:bg-primary-hover"
-                            : "bg-surface border-border text-text-main hover:border-primary/50 hover:bg-primary/5"
+                        ? "border-dashed border-border text-text-muted hover:border-neutral-400 dark:hover:border-neutral-600 hover:text-text-main bg-surface italic font-normal"
+                        : isActive
+                          ? "bg-black text-white dark:bg-white dark:text-black border-black dark:border-white font-medium"
+                          : "bg-surface border-border text-text-main hover:border-neutral-400 dark:hover:border-neutral-600 hover:bg-surface-2 font-normal"
                       }
                     `}
                   >
-                    <span className="flex items-center gap-1">
-                      {addedModelValues.includes(model.value) && !isPlaceholder && (
-                        <span className="material-symbols-outlined leading-none" style={{ fontSize: "10px" }}>check</span>
+                    <span className="inline-flex items-center gap-1 leading-none">
+                      {isAdded && !isPlaceholder && (
+                        <span className="material-symbols-outlined text-[10px] leading-none inline-flex items-center">check</span>
                       )}
                       {isPlaceholder ? (
                         <>
-                          <span className="material-symbols-outlined text-[11px]">edit</span>
-                          {model.name}
+                          <span className="material-symbols-outlined text-[11px] leading-none inline-flex items-center">edit</span>
+                          <span>{model.name}</span>
                         </>
                       ) : model.isCustom ? (
                         <>
-                          {model.name}
-                          <span className="text-[9px] opacity-60 font-normal">custom</span>
-                          <CapacityBadges caps={getCaps(model.value)} />
+                          <span>{model.name}</span>
+                          <span className="text-[9px] opacity-60 font-sans leading-none">custom</span>
+                          <CapacityBadges caps={getCaps(model.value)} colorOverride={isActive ? "text-white dark:text-black" : "text-text-muted"} size={12} />
                         </>
                       ) : (
                         <>
-                          {model.name}
-                          <CapacityBadges caps={getCaps(model.value)} />
+                          <span>{model.name}</span>
+                          <CapacityBadges caps={getCaps(model.value)} colorOverride={isActive ? "text-white dark:text-black" : "text-text-muted"} size={12} />
                         </>
                       )}
                     </span>
@@ -626,7 +626,7 @@ export default function ModelSelectModal({
         ))}
 
         {Object.keys(filteredGroups).length === 0 && filteredCombos.length === 0 && (
-          <div className="text-center py-4 text-text-muted">
+          <div className="text-center py-6 text-text-muted">
             <span className="material-symbols-outlined text-2xl mb-1 block">
               search_off
             </span>

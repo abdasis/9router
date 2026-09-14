@@ -190,9 +190,9 @@ export default function RequestDetailsTab() {
               value={filters.provider}
               onChange={(e) => setFilters({ ...filters, provider: e.target.value })}
               className={cn(
-                "h-9 px-3 rounded-lg border border-black/10 dark:border-white/10 bg-surface",
-                "text-sm text-text-main focus:outline-none focus:ring-2 focus:ring-primary/20",
-                "w-full min-w-0 cursor-pointer"
+                "h-8 px-2.5 rounded-[6px] border border-border bg-surface",
+                "text-xs sm:text-sm text-text-main focus:outline-none focus:border-black focus:ring-1 focus:ring-black dark:focus:border-white dark:focus:ring-white",
+                "w-full min-w-0 cursor-pointer transition-colors"
               )}
               style={{ colorScheme: 'auto' }}
             >

@@ -30,27 +30,28 @@ export default function Select({
           onChange={onChange}
           disabled={disabled}
           className={cn(
-            "w-full py-2.5 px-3 pr-10 text-sm text-text-main",
-            "bg-surface-2 border border-transparent rounded-[10px] appearance-none",
-            "focus:outline-none focus:ring-2 focus:ring-brand-500/30 focus:border-brand-500/40",
-            "transition-all duration-150 disabled:opacity-50 disabled:cursor-not-allowed",
-            "text-[16px] sm:text-sm",
-            error && "ring-1 ring-red-500 focus:ring-2 focus:ring-red-500/40 border-red-500/40",
+            "w-full h-8 py-1.5 px-2.5 pr-8 text-xs sm:text-sm text-text-main",
+            "bg-surface border border-border rounded-[6px] appearance-none",
+            "focus:outline-none focus:border-black focus:ring-1 focus:ring-black dark:focus:border-white dark:focus:ring-white",
+            "transition-all duration-150 disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-surface-2",
+            error && "border-red-500 focus:border-red-500 focus:ring-1 focus:ring-red-500",
             selectClassName
           )}
           {...props}
         >
-          <option value="" disabled>
-            {placeholder}
-          </option>
+          {placeholder && (
+            <option value="" disabled>
+              {placeholder}
+            </option>
+          )}
           {options.map((option) => (
             <option key={option.value} value={option.value}>
               {option.label}
             </option>
           ))}
         </select>
-        <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-text-muted">
-          <span className="material-symbols-outlined text-[20px]">expand_more</span>
+        <div className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none text-text-muted">
+          <span className="material-symbols-outlined text-[18px]">expand_more</span>
         </div>
       </div>
       {error && (

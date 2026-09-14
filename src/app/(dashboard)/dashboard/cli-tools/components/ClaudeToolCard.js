@@ -414,7 +414,7 @@ export default function ClaudeToolCard({
                 <div className="grid grid-cols-1 gap-1.5 sm:grid-cols-[8rem_auto_1fr_auto] sm:items-center sm:gap-2">
                   <span className="text-xs font-semibold text-text-main sm:text-right sm:text-sm">Auto-compact</span>
                   <span className="material-symbols-outlined hidden text-text-muted text-[14px] sm:inline">arrow_forward</span>
-                  <select value={autoCompactWindow} onChange={(e) => setAutoCompactWindow(e.target.value)} className="w-full min-w-0 px-2 py-2 bg-surface rounded border border-border text-xs focus:outline-none focus:ring-1 focus:ring-primary/50 sm:py-1.5">
+                  <select value={autoCompactWindow} onChange={(e) => setAutoCompactWindow(e.target.value)} className="w-full min-w-0 h-8 px-2.5 py-1.5 bg-surface rounded-[6px] border border-border text-xs text-text-main focus:outline-none focus:border-black focus:ring-1 focus:ring-black dark:focus:border-white dark:focus:ring-white">
                     {CONTEXT_OPTIONS.map((opt) => (
                       <option key={opt.label} value={opt.value}>{opt.label}</option>
                     ))}

@@ -2,6 +2,12 @@
 
 import { cn } from "@/shared/utils/cn";
 
+const sizes = {
+  sm: { track: "w-7 h-4", thumb: "size-3", translate: "translate-x-3" },
+  md: { track: "w-9 h-5", thumb: "size-4", translate: "translate-x-4" },
+  lg: { track: "w-11 h-6", thumb: "size-5", translate: "translate-x-5" },
+};
+
 export default function Toggle({
   checked = false,
   onChange,
@@ -11,11 +17,7 @@ export default function Toggle({
   size = "md",
   className,
 }) {
-  const sizes = {
-    sm: { track: "w-8 h-4", thumb: "size-3", translate: "translate-x-4" },
-    md: { track: "w-11 h-6", thumb: "size-5", translate: "translate-x-5" },
-    lg: { track: "w-14 h-7", thumb: "size-6", translate: "translate-x-7" },
-  };
+  const currentSize = sizes[size] || sizes.md;
 
   const handleClick = () => {
     if (!disabled && onChange) onChange(!checked);
@@ -24,7 +26,7 @@ export default function Toggle({
   return (
     <div
       className={cn(
-        "flex items-center gap-3",
+        "flex items-center gap-2.5 select-none",
         disabled && "opacity-50 cursor-not-allowed",
         className
       )}
@@ -36,21 +38,22 @@ export default function Toggle({
         disabled={disabled}
         onClick={handleClick}
         className={cn(
-          "relative inline-flex shrink-0 cursor-pointer rounded-full",
-          "transition-colors duration-200 ease-in-out",
-          "focus:outline-none focus:ring-2 focus:ring-brand-500/30",
-          checked ? "bg-brand-500" : "bg-surface-3",
-          sizes[size].track,
+          "relative inline-flex shrink-0 cursor-pointer rounded-full border transition-colors duration-200 ease-in-out",
+          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/20 dark:focus-visible:ring-white/20",
+          checked
+            ? "bg-black dark:bg-white border-transparent"
+            : "bg-surface-3 border-border hover:border-neutral-400 dark:hover:border-neutral-600",
+          currentSize.track,
           disabled && "cursor-not-allowed"
         )}
       >
         <span
           className={cn(
-            "pointer-events-none inline-block rounded-full bg-white shadow-sm",
-            "transform transition duration-200 ease-in-out",
-            checked ? sizes[size].translate : "translate-x-0.5",
-            sizes[size].thumb,
-            "mt-0.5"
+            "absolute top-0.5 left-0.5 pointer-events-none rounded-full shadow-xs transform transition-transform duration-200 ease-in-out",
+            checked
+              ? `bg-white dark:bg-black ${currentSize.translate}`
+              : "bg-white dark:bg-neutral-200 translate-x-0",
+            currentSize.thumb
           )}
         />
       </button>

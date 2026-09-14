@@ -42,7 +42,7 @@ export default function Drawer({
     <div className="fixed inset-0 z-50">
       {/* Overlay */}
       <div
-        className="absolute inset-0 bg-black/50 backdrop-blur-[2px] fade-in cursor-pointer"
+        className="fixed inset-0 bg-black/40 backdrop-blur-xs transition-opacity fade-in cursor-pointer"
         onClick={onClose}
         aria-hidden="true"
       />
@@ -52,23 +52,23 @@ export default function Drawer({
         "absolute right-0 top-0 h-full bg-surface flex flex-col",
         "shadow-[var(--shadow-elev)]",
         "slide-in-right",
-        "border-l border-border-subtle",
+        "border-l border-border",
         widths[width] || widths.md,
         className
       )}>
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-border-subtle flex-shrink-0">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-border flex-shrink-0">
           <div className="flex items-center gap-3">
             {title && (
-              <h2 className="text-lg font-semibold text-text-main">{title}</h2>
+              <h2 className="text-base font-medium text-text-main">{title}</h2>
             )}
           </div>
           <button
             type="button"
             onClick={onClose}
-            className="p-1.5 rounded-[10px] text-text-muted hover:bg-surface-2 hover:text-text-main transition-colors"
+            className="size-7 rounded-[6px] text-text-muted hover:bg-surface-2 hover:text-text-main flex items-center justify-center transition-colors cursor-pointer"
           >
-            <span className="material-symbols-outlined text-[20px]">close</span>
+            <span className="material-symbols-outlined text-[18px]">close</span>
           </button>
         </div>
 
